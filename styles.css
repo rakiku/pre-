@@ -162,6 +162,17 @@ button:disabled {
     padding-top: 20px;
 }
 
+.custom-binds-section {
+    border-top: 2px solid #7f8c8d;
+    margin-top: 20px;
+    padding-top: 20px;
+}
+.custom-binds-section:first-child {
+    border-top: none;
+    margin-top: 0;
+    padding-top: 0;
+}
+
 
 .button-group-checkbox {
     display: grid;
@@ -366,14 +377,6 @@ canvas {
     transform: none; 
     background-color: transparent;
 }
-
-/* ▼▼▼ 追加 ▼▼▼ */
-.custom-bind-player-section {
-    border-top: 2px solid #7f8c8d;
-    margin-top: 20px;
-    padding-top: 15px;
-}
-/* ▲▲▲ 追加ここまで ▲▲▲ */
 
 
 /* ▼▼▼ スマホ対応（レスポンシブデザイン） ▼▼▼ */
