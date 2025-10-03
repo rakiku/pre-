@@ -1,0 +1,446 @@
+body {
+    font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
+    background-image: url('background.jpg.png');
+    background-color: #2c3e50;
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    color: #ecf0f1;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    box-sizing: border-box;
+}
+
+.home-button {
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    z-index: 1000;
+    background-color: rgba(0, 0, 0, 0.5);
+    border: 1px solid #fff;
+}
+.home-button:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.container {
+    background-color: rgba(44, 62, 80, 0.9);
+    padding: 20px 40px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+    text-align: center;
+    width: 90%;
+    max-width: 600px;
+}
+
+h1, h2, h3 {
+    color: #fff;
+    margin-bottom: 20px;
+}
+
+h2 + p {
+    margin-top: -15px;
+    margin-bottom: 25px;
+    color: #bdc3c7;
+}
+
+
+.hidden {
+    display: none !important;
+}
+
+.input-group {
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.input-group label {
+    margin-right: 10px;
+    font-size: 1.1em;
+}
+
+.input-group input {
+    width: 60px;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #7f8c8d;
+    background-color: #34495e;
+    color: #ecf0f1;
+    font-size: 1.1em;
+    text-align: center;
+}
+
+.button-group {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+button {
+    background-color: #27ae60;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: bold;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+button:hover {
+    background-color: #2ecc71;
+    transform: translateY(-2px);
+}
+
+button:disabled {
+    background-color: #7f8c8d;
+    cursor: not-allowed;
+    transform: none;
+}
+
+#stopButton {
+    background-color: #c0392b;
+}
+#stopButton:not(:disabled):hover {
+    background-color: #e74c3c;
+}
+#executeCustomBindsButton {
+    margin-top: 10px;
+    width: 100%;
+}
+
+
+.custom-bind-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.custom-bind-item {
+    background-color: #34495e;
+    padding: 10px 15px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    text-align: left;
+}
+
+.custom-bind-item .checkbox-label-main {
+    font-weight: bold;
+    cursor: pointer;
+    user-select: none;
+}
+.custom-bind-item .checkbox-label-main input {
+    margin-right: 8px;
+}
+
+.custom-bind-item select {
+    width: 100%;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #7f8c8d;
+    background-color: #2c3e50;
+    color: #ecf0f1;
+    margin-top: 5px;
+}
+
+.custom-bind-checkboxes {
+    margin-top: 20px;
+    border-top: 1px solid #7f8c8d;
+    padding-top: 20px;
+}
+
+
+.button-group-checkbox {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px;
+    margin: 20px 0;
+    text-align: left;
+}
+
+.checkbox-label {
+    display: block;
+    background-color: #34495e;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+.checkbox-label:hover {
+    background-color: #4a6fa5;
+}
+.checkbox-label input {
+    margin-right: 10px;
+}
+.checkbox-label.disabled {
+    background-color: #2c3e50;
+    color: #7f8c8d;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+.checkbox-label.disabled input {
+    cursor: not-allowed;
+}
+
+
+.roulette-container {
+    margin: 20px auto;
+    position: relative;
+    width: 500px;
+    height: 500px;
+}
+
+canvas {
+    width: 100%;
+    height: 100%;
+}
+
+.popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.85);
+    color: #fff;
+    padding: 30px 50px;
+    border-radius: 10px;
+    font-size: 2.5em;
+    font-weight: bold;
+    z-index: 100;
+    text-shadow: 2px 2px 5px #000;
+    border: 2px solid #fff;
+    cursor: pointer;
+}
+
+#results {
+    text-align: left;
+    background-color: #34495e;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+#results h3 {
+    margin-top: 15px;
+    border-bottom: 1px solid #7f8c8d;
+    padding-bottom: 5px;
+}
+#results ul {
+    list-style: none;
+    padding-left: 0;
+}
+#results li {
+    background-color: #2c3e50;
+    margin-bottom: 5px;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.char-list, .char-list-final {
+    font-size: 0.8em;
+    color: #bdc3c7;
+    margin-left: 8px;
+    display: block;
+    margin-top: 5px;
+}
+
+#playerNameInputsContainer {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.playerNameInput {
+    width: 200px;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #7f8c8d;
+    background-color: #34495e;
+    color: #ecf0f1;
+    font-size: 1em;
+    text-align: center;
+}
+
+#currentPlayerNameDisplay {
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 1.8em;
+    color: #f1c40f;
+    min-height: 2.2em;
+}
+
+.about-button-container {
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 1px solid #7f8c8d;
+}
+
+.about-button {
+    background-color: #3498db;
+}
+
+.about-button:hover {
+    background-color: #5dade2;
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+
+.modal-content {
+    background-color: #2c3e50;
+    padding: 20px 30px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 700px;
+    max-height: 85vh;
+    overflow-y: auto;
+    position: relative;
+    text-align: left;
+    border: 2px solid #7f8c8d;
+}
+
+.modal-content h3 {
+    color: #f1c40f;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #7f8c8d;
+    padding-bottom: 5px;
+}
+
+.modal-content p {
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+.modal-content a {
+    color: #3498db;
+    text-decoration: none;
+    word-break: break-all;
+}
+
+.modal-content a:hover {
+    text-decoration: underline;
+}
+
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 2.5em;
+    font-weight: bold;
+    color: #fff;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+}
+
+.close-button:hover {
+    color: #c0392b;
+    transform: none; 
+    background-color: transparent;
+}
+
+
+/* ▼▼▼ スマホ対応（レスポンシブデザイン） ▼▼▼ */
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+        width: 100%;
+        height: 100%;
+        border-radius: 0;
+        box-sizing: border-box;
+    }
+
+    h1 {
+        font-size: 1.8em;
+    }
+
+    .roulette-container {
+        width: 90vw;
+        height: 90vw;
+        max-width: 500px;
+        max-height: 500px;
+    }
+
+    .button-group {
+        flex-direction: column;
+    }
+
+    .custom-bind-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .modal-content {
+        padding: 15px;
+    }
+
+    .popup {
+        font-size: 1.5em;
+        padding: 20px 30px;
+        width: 80%;
+    }
+}
+/* ▼▼▼ ポップアップと閉じるボタンのスタイルを追記 ▼▼▼ */
+.popup {
+    display: flex; /* hiddenクラスで表示を切り替えるためflexに変更 */
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: default; /* 全体クリックは無効化するのでカーソルを戻す */
+}
+
+.popup.hidden {
+    display: none !important;
+}
+
+#popupText {
+    padding: 20px;
+}
+
+.close-popup-button {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    font-size: 0.5em;
+    font-weight: bold;
+    color: #fff;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+}
+
+.close-popup-button:hover {
+    color: #c0392b;
+    transform: none;
+    background-color: transparent;
+}
+/* ▲▲▲ 追記ここまで ▲▲▲ */
