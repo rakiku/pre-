@@ -35,8 +35,8 @@ document.addEventListener('DOMContentLoaded', function() {
         { name: "鍾離", country: "璃月", weapon: "長柄武器", element: "岩", birth_month: "１２月", version: "n.1", rarity: ['☆５'], body_type: "長身男性", role: ["オフフィールドサポーター", "オフフィールドライフキーパー"], energy: 40, ascension_stat: "岩元素ダメージ", boss_material: "無相の岩", local_specialty: "石珀", is_distributed: false },
         { name: "辛炎", country: "璃月", weapon: "両手剣", element: "炎", birth_month: "１０月", version: "n.1", rarity: ['☆４'], body_type: "中身女性", role: ["オフフィールドライフキーパー"], energy: 60, ascension_stat: "攻撃力", boss_material: "爆炎樹", local_specialty: "瑠璃袋", is_distributed: true },
         { name: "甘雨", country: "璃月", weapon: "弓", element: "氷", birth_month: "１２月", version: "n.2", rarity: ['☆５'], body_type: "中身女性", role: ["オンフィールドアタッカー"], energy: 60, ascension_stat: "会心ダメージ", boss_material: "急凍樹", local_specialty: "清心", is_distributed: false },
-        { name: "胡桃", country: "璃月", weapon: "長柄武器", element: "炎", birth_month: "７月", version: "n.3", rarity: ['☆５'], body_type: "中身女性", role: ["オンフィールドアタッカー"], energy: 60, ascension_stat: "会心ダメージ", boss_material: "エンシェントヴィシャップ・岩", local_specialty: "霓裳花", is_distributed: false },
-        { name: "煙緋", country: "璃月", weapon: "法器", element: "炎", birth_month: "７月", version: "n.5", rarity: ['☆４'], body_type: "中身女性", role: ["オンフィールドアタッカー"], energy: 80, ascension_stat: "炎元素ダメージ", boss_material: "エンシェントヴィシャップ・岩", local_specialty: "夜泊石", is_distributed: false },
+        { name: "胡桃", country: "璃月", weapon: "長柄武器", element: "炎", birth_month: "７月", version: "n.3", rarity: ['☆５'], body_type: "中身女性", role: ["オンフィールドタッカー"], energy: 60, ascension_stat: "会心ダメージ", boss_material: "エンシェントヴィシャップ・岩", local_specialty: "霓裳花", is_distributed: false },
+        { name: "煙緋", country: "璃月", weapon: "法器", element: "炎", birth_month: "７月", version: "n.5", rarity: ['☆４'], body_type: "中身女性", role: ["オンフィールドタッカー"], energy: 80, ascension_stat: "炎元素ダメージ", boss_material: "エンシェントヴィシャップ・岩", local_specialty: "夜泊石", is_distributed: false },
         { name: "申鶴", country: "璃月", weapon: "長柄武器", element: "氷", birth_month: "３月", version: "n.4", rarity: ['☆５'], body_type: "長身女性", role: ["オフフィールドサポーター"], energy: 80, ascension_stat: "攻撃力", boss_material: "アビサルヴィシャップ", local_specialty: "清心", is_distributed: false },
         { name: "雲菫", country: "璃月", weapon: "長柄武器", element: "岩", birth_month: "５月", version: "n.4", rarity: ['☆４'], body_type: "中身女性", role: ["オフフィールドサポーター"], energy: 60, ascension_stat: "元素チャージ効率", boss_material: "黄金王獣", local_specialty: "瑠璃百合", is_distributed: false },
         { name: "夜蘭", country: "璃月", weapon: "弓", element: "水", birth_month: "４月", version: "n.7", rarity: ['☆５'], body_type: "長身女性", role: ["オフフィールドアタッカー"], energy: 70, ascension_stat: "会心率", boss_material: "遺跡サーペント", local_specialty: "星螺", is_distributed: false },
@@ -76,10 +76,10 @@ document.addEventListener('DOMContentLoaded', function() {
         { name: "ファルザン", country: "スメール", weapon: "弓", element: "風", birth_month: "８月", version: "n.3", rarity: ['☆４'], body_type: "中身女性", role: ["オフフィールドサポーター"], energy: 80, ascension_stat: "攻撃力", boss_material: "半永久統制マトリックス", local_specialty: "赤念の実", is_distributed: true },
         { name: "アルハイゼン", country: "スメール", weapon: "片手剣", element: "草", birth_month: "２月", version: "n.4", rarity: ['☆５'], body_type: "長身男性", role: ["オンフィールドアタッカー"], energy: 70, ascension_stat: "草元素ダメージ", boss_material: "風食ウェネト", local_specialty: "砂脂蛹", is_distributed: false },
         { name: "ディシア", country: "スメール", weapon: "両手剣", element: "炎", birth_month: "４月", version: "n.5", rarity: ['☆５', '恒常☆５'], body_type: "長身女性", role: ["オフフィールドアタッカー", "オフフィールドライフキーパー"], energy: 70, ascension_stat: "HP", boss_material: "半永久統制マトリックス", local_specialty: "砂脂蛹", is_distributed: false },
-        { name: "カーヴェ", country: "スメール", weapon: "両手剣", element: "草", birth_month: "７月", version: "n.6", rarity: ['☆４'], body_type: "長身男性", role: ["オンフィールドアタッカー"], energy: 80, ascension_stat: "元素熟知", boss_material: "無相の草", local_specialty: "悼霊花", is_distributed: false },
+        { name: "カーヴェ", country: "スメール", weapon: "両手剣", element: "草", birth_month: "７月", version: "n.6", rarity: ['☆４'], body_type: "長身男性", role: ["オンフィールドタッカー"], energy: 80, ascension_stat: "元素熟知", boss_material: "無相の草", local_specialty: "悼霊花", is_distributed: false },
         { name: "セトス", country: "スメール", weapon: "弓", element: "雷", birth_month: "５月", version: "n.7", rarity: ['☆４'], body_type: "中身男性", role: ["オンフィールドアタッカー"], energy: 60, ascension_stat: "元素熟知", boss_material: "山隠れの猊獣", local_specialty: "サングイト", is_distributed: false },
         // フォンテーヌ
-        { name: "リネ", country: "フォンテーヌ", weapon: "弓", element: "炎", birth_month: "２月", version: "n.0", rarity: ['☆５'], body_type: "中身男性", role: ["オンフィールドアタッカー"], energy: 60, ascension_stat: "会心率", boss_material: "鉄甲熔炎帝王", local_specialty: "レインボーローズ", is_distributed: false },
+        { name: "リネ", country: "フォンテーヌ", weapon: "弓", element: "炎", birth_month: "２月", version: "n.0", rarity: ['☆５'], body_type: "中身男性", role: ["オンフィールドタッカー"], energy: 60, ascension_stat: "会心率", boss_material: "鉄甲熔炎帝王", local_specialty: "レインボーローズ", is_distributed: false },
         { name: "リネット", country: "フォンテーヌ", weapon: "片手剣", element: "風", birth_month: "２月", version: "n.0", rarity: ['☆４'], body_type: "中身女性", role: ["オフフィールドアタッカー"], energy: 70, ascension_stat: "風元素ダメージ", boss_material: "氷風組曲コッペリア", local_specialty: "ルミドゥースベル", is_distributed: true },
         { name: "フレミネ", country: "フォンテーヌ", weapon: "両手剣", element: "氷", birth_month: "９月", version: "n.0", rarity: ['☆４'], body_type: "中身男性", role: ["オンフィールドアタッカー"], energy: 60, ascension_stat: "攻撃力", boss_material: "氷風組曲コペリウス", local_specialty: "ロマリタイムフラワー", is_distributed: true },
         { name: "ヌヴィレット", country: "フォンテーヌ", weapon: "法器", element: "水", birth_month: "１２月", version: "n.1", rarity: ['☆５'], body_type: "長身男性", role: ["オンフィールドタッカー"], energy: 70, ascension_stat: "会心ダメージ", boss_material: "千年真珠の海駿", local_specialty: "ルエトワール", is_distributed: false },
@@ -627,6 +627,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 if(currentFilters["☆４キャラ武器"]) {
                     subItems = subItems.filter(w => !star5Weapons.includes(w));
                 }
+            } else if (bindName === "突破ステータス縛り(武器)") {
+                // 武器の突破ステータス縛りはキャラクターを絞り込まない
             } else {
                  subItems = subItems.filter(option => {
                     const tempWithOption = {...currentFilters};
@@ -1217,5 +1219,6 @@ document.addEventListener('DOMContentLoaded', function() {
         setupRouletteForBind(bindInfo.name, bindInfo.player || 1);
     }
 
-    initialize();
+    // ★★★ 修正箇所: ページ読み込み時の不要な呼び出しを削除し、適切なものに置き換え ★★★
+    updatePlayerNameInputs();
 });
