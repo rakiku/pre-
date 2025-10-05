@@ -485,6 +485,10 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     document.getElementById('closePopupButton').addEventListener('click', () => {
         document.getElementById('popup').style.display = 'none';
+        document.getElementById('nextButton').classList.remove('hidden');
+        if(currentRoulette === 'character' || currentRoulette === 'weapon' || (currentRoulette === 'sub' && currentBindName === '武器縛り')) {
+            document.getElementById('notOwnedButton').classList.remove('hidden');
+        }
     });
 
 
@@ -545,7 +549,6 @@ document.addEventListener('DOMContentLoaded', function() {
         rerolledCommonWeapons = [];
         bindSelectionPhase = false;
         bindsToResolve = [];
-        updatePlayerNameInputs();
     }
 
     function showBindSelection() {
@@ -884,22 +887,23 @@ document.addEventListener('DOMContentLoaded', function() {
         
         const nextButton = document.getElementById('nextButton');
         const notOwnedButton = document.getElementById('notOwnedButton');
+
+        // We need to remove old listeners before adding new ones to avoid multiple triggers
+        const newNextButton = nextButton.cloneNode(true);
+        nextButton.parentNode.replaceChild(newNextButton, nextButton);
         
-        const closeHandler = () => {
-            popup.style.display = 'none';
-            nextButton.classList.remove('hidden');
-            if(currentRoulette === 'character' || currentRoulette === 'weapon' || (currentRoulette === 'sub' && currentBindName === '武器縛り')) {
-                notOwnedButton.classList.remove('hidden');
-            }
-        };
+        const newNotOwnedButton = notOwnedButton.cloneNode(true);
+        notOwnedButton.parentNode.replaceChild(newNotOwnedButton, notOwnedButton);
 
-        const clickHandler = (event) => {
-            if (event.target.id === 'closePopupButton') {
-                closeHandler();
-            }
-        };
+        newNextButton.addEventListener('click', () => {
+            document.getElementById('popup').style.display = 'none';
+            nextStep();
+        });
 
-        popup.addEventListener('click', clickHandler, { once: true });
+        newNotOwnedButton.addEventListener('click', () => {
+             document.getElementById('popup').style.display = 'none';
+             notOwned();
+        });
     };
     
     function nextStep() {
@@ -1296,6 +1300,5 @@ document.addEventListener('DOMContentLoaded', function() {
         setupRouletteForBind(bindInfo.name, bindInfo.player || 1);
     }
 
-    // ★★★ 修正箇所: ページ読み込み時の直接の呼び出しを削除し、initialize()内での呼び出しに統一 ★★★
-    initialize();
+    updatePlayerNameInputs();
 });
