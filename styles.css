@@ -234,7 +234,25 @@ canvas {
     z-index: 100;
     text-shadow: 2px 2px 5px #000;
     border: 2px solid #fff;
-    cursor: pointer;
+    cursor: default;
+}
+
+.close-popup-button {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    font-size: 1.5em;
+    color: #fff;
+    background: none;
+    border: none;
+    padding: 5px;
+    line-height: 1;
+    font-weight: bold;
+}
+.close-popup-button:hover {
+    color: #c0392b;
+    background-color: transparent;
+    transform: none;
 }
 
 #results {
@@ -258,6 +276,15 @@ canvas {
     margin-bottom: 5px;
     padding: 10px;
     border-radius: 5px;
+}
+.reroll-player-button {
+    background-color: #e67e22;
+    padding: 5px 10px;
+    font-size: 0.8em;
+    margin-left: 10px;
+}
+.reroll-player-button:hover {
+    background-color: #f39c12;
 }
 
 .char-list, .char-list-final {
