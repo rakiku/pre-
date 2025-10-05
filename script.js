@@ -887,26 +887,15 @@ document.addEventListener('DOMContentLoaded', function() {
         
         const nextButton = document.getElementById('nextButton');
         const notOwnedButton = document.getElementById('notOwnedButton');
-
-        // We need to remove old listeners before adding new ones to avoid multiple triggers
-        const newNextButton = nextButton.cloneNode(true);
-        nextButton.parentNode.replaceChild(newNextButton, nextButton);
         
-        const newNotOwnedButton = notOwnedButton.cloneNode(true);
-        notOwnedButton.parentNode.replaceChild(newNotOwnedButton, notOwnedButton);
-
-        newNextButton.addEventListener('click', () => {
-            document.getElementById('popup').style.display = 'none';
-            nextStep();
-        });
-
-        newNotOwnedButton.addEventListener('click', () => {
-             document.getElementById('popup').style.display = 'none';
-             notOwned();
-        });
+        document.getElementById('nextButton').classList.remove('hidden');
+        if(currentRoulette === 'character' || currentRoulette === 'weapon' || (currentRoulette === 'sub' && currentBindName === '武器縛り')) {
+            notOwnedButton.classList.remove('hidden');
+        }
     };
     
     function nextStep() {
+        document.getElementById('popup').style.display = 'none';
         processResult();
         document.getElementById('nextButton').classList.add('hidden');
         document.getElementById('notOwnedButton').classList.add('hidden');
@@ -1032,6 +1021,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     function notOwned() {
+        document.getElementById('popup').style.display = 'none';
         if(currentRoulette === 'character') {
             rerolledChars[currentPlayer].push(lastResult);
             items = getFilteredCharacters(null, currentPlayer).map(c => c.name).sort(() => Math.random() - 0.5);
@@ -1186,6 +1176,24 @@ document.addEventListener('DOMContentLoaded', function() {
         weaponSelectBinds.forEach(name => createBindItem(name, 'select', weaponGridContainer));
         weaponCheckBinds.forEach(name => createBindItem(name, 'check', weaponButtonsContainer));
         ruleCheckBinds.forEach(name => createBindItem(name, 'check', ruleButtonsContainer));
+
+        for (let i = 1; i <= playerCount; i++) {
+            const playerDiv = document.createElement('div');
+            playerDiv.className = 'custom-binds-section';
+            playerDiv.innerHTML = `<h3>${playerNames[i-1]}の縛り</h3>`;
+            
+            const playerGrid = document.createElement('div');
+            playerGrid.className = 'custom-bind-grid';
+            ['武器種縛り', '誕生月', 'アルファベット縛り'].forEach(name => createBindItem(name, 'select', playerGrid, i));
+            
+            const playerButtons = document.createElement('div');
+            playerButtons.className = 'button-group-checkbox';
+            ['武器縛り', 'キャラルーレット', 'キャラ武器ルーレット'].forEach(name => createBindItem(name, 'check', playerButtons, i));
+            
+            playerDiv.appendChild(playerGrid);
+            playerDiv.appendChild(playerButtons);
+            playersContainer.appendChild(playerDiv);
+        }
     }
 
     function createBindItem(name, type, container, playerIndex = 0) {
@@ -1250,10 +1258,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (select) { 
                     const selectedValue = select.value;
                     if (selectedValue === 'random') {
-                        if (playerBindTypes.includes(bindName)) {
-                            for (let i = 1; i <= playerCount; i++) {
-                                bindsToResolve.push({ name: bindName, player: i });
-                            }
+                        if (playerBindTypes.includes(bindName) && player) {
+                             bindsToResolve.push({ name: bindName, player: parseInt(player) });
                         } else {
                             bindsToResolve.push({ name: bindName, player: 0 });
                         }
@@ -1262,10 +1268,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                 } else {
                      if (needsRoulette) {
-                        if (playerBindTypes.includes(bindName)) {
-                            for (let i = 1; i <= playerCount; i++) {
-                                bindsToResolve.push({ name: bindName, player: i });
-                            }
+                        if (playerBindTypes.includes(bindName) && player) {
+                            bindsToResolve.push({ name: bindName, player: parseInt(player) });
                         } else {
                             bindsToResolve.push({ name: bindName, player: 0 });
                         }
