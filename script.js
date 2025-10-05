@@ -77,7 +77,7 @@ document.addEventListener('DOMContentLoaded', function() {
         { name: "アルハイゼン", country: "スメール", weapon: "片手剣", element: "草", birth_month: "２月", version: "n.4", rarity: ['☆５'], body_type: "長身男性", role: ["オンフィールドタッカー"], energy: 70, ascension_stat: "草元素ダメージ", boss_material: "風食ウェネト", local_specialty: "砂脂蛹", is_distributed: false },
         { name: "ディシア", country: "スメール", weapon: "両手剣", element: "炎", birth_month: "４月", version: "n.5", rarity: ['☆５', '恒常☆５'], body_type: "長身女性", role: ["オフフィールドアタッカー", "オフフィールドライフキーパー"], energy: 70, ascension_stat: "HP", boss_material: "半永久統制マトリックス", local_specialty: "砂脂蛹", is_distributed: false },
         { name: "カーヴェ", country: "スメール", weapon: "両手剣", element: "草", birth_month: "７月", version: "n.6", rarity: ['☆４'], body_type: "長身男性", role: ["オンフィールドタッカー"], energy: 80, ascension_stat: "元素熟知", boss_material: "無相の草", local_specialty: "悼霊花", is_distributed: false },
-        { name: "セトス", country: "スメール", weapon: "弓", element: "雷", birth_month: "５月", version: "n.7", rarity: ['☆４'], body_type: "中身男性", role: ["オンフィールドアタッカー"], energy: 60, ascension_stat: "元素熟知", boss_material: "山隠れの猊獣", local_specialty: "サングイト", is_distributed: false },
+        { name: "セトス", country: "スメール", weapon: "弓", element: "雷", birth_month: "５月", version: "n.7", rarity: ['☆４'], body_type: "中身男性", role: ["オンフィールドタッカー"], energy: 60, ascension_stat: "元素熟知", boss_material: "山隠れの猊獣", local_specialty: "サングイト", is_distributed: false },
         // フォンテーヌ
         { name: "リネ", country: "フォンテーヌ", weapon: "弓", element: "炎", birth_month: "２月", version: "n.0", rarity: ['☆５'], body_type: "中身男性", role: ["オンフィールドタッカー"], energy: 60, ascension_stat: "会心率", boss_material: "鉄甲熔炎帝王", local_specialty: "レインボーローズ", is_distributed: false },
         { name: "リネット", country: "フォンテーヌ", weapon: "片手剣", element: "風", birth_month: "２月", version: "n.0", rarity: ['☆４'], body_type: "中身女性", role: ["オフフィールドアタッカー"], energy: 70, ascension_stat: "風元素ダメージ", boss_material: "氷風組曲コッペリア", local_specialty: "ルミドゥースベル", is_distributed: true },
@@ -113,7 +113,7 @@ document.addEventListener('DOMContentLoaded', function() {
         { name: "アイノ", country: "ナドクライ", weapon: "両手剣", element: "水", birth_month: "９月", version: "n.0", rarity: ['☆４'], body_type: "ロリ", role: ["オフフィールドサポーター"], energy: 50, ascension_stat: "元素熟知", boss_material: "ボコボコダック", local_specialty: "蛍行型ベアリング", is_distributed: true },
         { name: "ラウマ", country: "ナドクライ", weapon: "法器", element: "草", birth_month: "３月", version: "n.0", rarity: ['☆５'], body_type: "中身女性", role: ["オフフィールドサポーター"], energy: 60, ascension_stat: "元素熟知", boss_material: "集光の幻月蝶", local_specialty: "月落銀", is_distributed: false },
         // 例外
-        { name: "旅人", country: "例外", weapon: "片手剣", element: "その他", birth_month: "その他", version: "n.0", rarity: ['☆５'], body_type: "中身男性", role: ["オンフィールドアタッカー", "オフフィールドアタッカー"], energy: 60, ascension_stat: "攻撃力", boss_material: "", local_specialty: "風車アスター", is_distributed: false, aliases: ["空", "蛍", "風旅人", "水旅人", "草旅人", "炎旅人", "雷旅人"] },
+        { name: "旅人", country: "例外", weapon: "片手剣", element: "その他", birth_month: "その他", version: "n.0", rarity: ['☆５'], body_type: "中身男性", role: ["オンフィールドタッカー", "オフフィールドアタッカー"], energy: 60, ascension_stat: "攻撃力", boss_material: "", local_specialty: "風車アスター", is_distributed: false, aliases: ["空", "蛍", "風旅人", "水旅人", "草旅人", "炎旅人", "雷旅人"] },
         { name: "スカーク", country: "例外", weapon: "片手剣", element: "氷", birth_month: "１１月", version: "n.7", rarity: ['☆５'], body_type: "中身女性", role: ["オンフィールドタッカー"], energy: 0, ascension_stat: "会心ダメージ", boss_material: "深淵なるミミック・パピラ", local_specialty: "岩裂の花", is_distributed: false },
         { name: "アーロイ", country: "例外", weapon: "弓", element: "氷", birth_month: "４月", version: "n.2", rarity: ['☆５'], body_type: "中身女性", role: ["オンフィールドタッカー"], energy: 40, ascension_stat: "氷元素ダメージ", boss_material: "無相の氷", local_specialty: "晶化骨髄", is_distributed: true }
     ];
@@ -815,7 +815,8 @@ document.addEventListener('DOMContentLoaded', function() {
             ctx.textAlign = 'center';
             ctx.fillText('対象アイテムがありません', canvas.width / 2, canvas.height / 2);
              if (items && items.length === 0 && (mode === 'bind' || mode === 'selected' || mode === 'custom_selected')) {
-                 setTimeout(() => { proceedToNext(); }, 100);
+                alert(`選択可能な候補がありません。\n条件を見直してください。`);
+                backToStart();
             }
             return;
         }
@@ -881,21 +882,31 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('popupText').textContent = text;
         popup.style.display = 'block';
         
-        // Clicks inside the popup should not close it
-        popup.addEventListener('click', (e) => e.stopPropagation());
+        const nextButton = document.getElementById('nextButton');
+        const notOwnedButton = document.getElementById('notOwnedButton');
+        const closeButton = document.getElementById('closePopupButton');
 
         const clickHandler = () => {
             popup.style.display = 'none';
-            document.getElementById('nextButton').classList.remove('hidden');
+            nextButton.classList.remove('hidden');
             if(currentRoulette === 'character' || currentRoulette === 'weapon' || (currentRoulette === 'sub' && currentBindName === '武器縛り')) {
-                document.getElementById('notOwnedButton').classList.remove('hidden');
+                notOwnedButton.classList.remove('hidden');
             }
         };
 
-        const nextButton = document.getElementById('nextButton');
-        nextButton.addEventListener('click', clickHandler, { once: true });
+        const closeHandler = () => {
+            popup.style.display = 'none';
+            closeButton.removeEventListener('click', closeHandler);
+            nextButton.removeEventListener('click', nextAndCloseHandler);
+        };
         
-        const notOwnedButton = document.getElementById('notOwnedButton');
+        const nextAndCloseHandler = () => {
+            clickHandler();
+            closeHandler();
+        }
+
+        closeButton.addEventListener('click', closeHandler, { once: true });
+        nextButton.addEventListener('click', nextAndCloseHandler, { once: true });
         notOwnedButton.addEventListener('click', () => {
              popup.style.display = 'none';
         }, { once: true });
@@ -995,6 +1006,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     function hasPlayerBind(bindName, player = currentPlayer) {
+        if (!results.players[player - 1]) return false;
         return !!results.players[player - 1][bindName];
     }
     
@@ -1294,5 +1306,5 @@ document.addEventListener('DOMContentLoaded', function() {
         setupRouletteForBind(bindInfo.name, bindInfo.player || 1);
     }
 
-    initialize();
+    updatePlayerNameInputs();
 });
