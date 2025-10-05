@@ -44,19 +44,19 @@
             <p>実行したい縛りにチェックを入れ、詳細を設定してください。</p>
 
             <div class="custom-binds-section">
-                <h3>キャラクター縛り</h3>
+                <h3>キャラクター縛り (共通)</h3>
                 <div id="customBindsCharGrid" class="custom-bind-grid"></div>
                 <div id="customBindsCharButtons" class="button-group-checkbox"></div>
             </div>
 
             <div class="custom-binds-section">
-                <h3>武器縛り</h3>
+                <h3>武器縛り (共通)</h3>
                 <div id="customBindsWeaponGrid" class="custom-bind-grid"></div>
                 <div id="customBindsWeaponButtons" class="button-group-checkbox"></div>
             </div>
 
             <div class="custom-binds-section">
-                <h3>プレイルール縛り</h3>
+                <h3>プレイルール (共通)</h3>
                 <div id="customBindsRuleButtons" class="button-group-checkbox"></div>
             </div>
             
@@ -86,7 +86,10 @@
                 <button id="nextButton" class="hidden">次へ</button>
                 <button id="notOwnedButton" class="hidden">持っていない（リロール）</button>
             </div>
-            <div id="popup" class="popup"></div>
+            <div id="popup" class="popup">
+                <span id="popupText"></span>
+                <button id="closePopupButton" class="close-popup-button">&times;</button>
+            </div>
         </div>
 
 
