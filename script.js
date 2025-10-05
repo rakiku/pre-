@@ -884,9 +884,8 @@ document.addEventListener('DOMContentLoaded', function() {
         
         const nextButton = document.getElementById('nextButton');
         const notOwnedButton = document.getElementById('notOwnedButton');
-        const closeButton = document.getElementById('closePopupButton');
-
-        const clickHandler = () => {
+        
+        const closeHandler = () => {
             popup.style.display = 'none';
             nextButton.classList.remove('hidden');
             if(currentRoulette === 'character' || currentRoulette === 'weapon' || (currentRoulette === 'sub' && currentBindName === '武器縛り')) {
@@ -894,22 +893,13 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         };
 
-        const closeHandler = () => {
-            popup.style.display = 'none';
-            closeButton.removeEventListener('click', closeHandler);
-            nextButton.removeEventListener('click', nextAndCloseHandler);
+        const clickHandler = (event) => {
+            if (event.target.id === 'closePopupButton') {
+                closeHandler();
+            }
         };
-        
-        const nextAndCloseHandler = () => {
-            clickHandler();
-            closeHandler();
-        }
 
-        closeButton.addEventListener('click', closeHandler, { once: true });
-        nextButton.addEventListener('click', nextAndCloseHandler, { once: true });
-        notOwnedButton.addEventListener('click', () => {
-             popup.style.display = 'none';
-        }, { once: true });
+        popup.addEventListener('click', clickHandler, { once: true });
     };
     
     function nextStep() {
@@ -1306,5 +1296,6 @@ document.addEventListener('DOMContentLoaded', function() {
         setupRouletteForBind(bindInfo.name, bindInfo.player || 1);
     }
 
-    updatePlayerNameInputs();
+    // ★★★ 修正箇所: ページ読み込み時の直接の呼び出しを削除し、initialize()内での呼び出しに統一 ★★★
+    initialize();
 });
