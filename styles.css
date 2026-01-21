@@ -134,6 +134,7 @@ button:disabled {
     text-align: center;
 }
 
+/* プレイヤー名入力エリア（以前の見やすい設定に修正） */
 #playerNameInputsContainer {
     margin-top: 20px;
     display: flex;
@@ -143,12 +144,13 @@ button:disabled {
 }
 
 .playerNameInput {
-    width: 250px;
-    padding: 10px;
+    width: 200px;
+    padding: 8px;
     border-radius: 5px;
     border: 1px solid #7f8c8d;
     background-color: #34495e;
     color: #ecf0f1;
+    font-size: 1em;
     text-align: center;
 }
 
@@ -201,8 +203,8 @@ canvas {
     position: absolute;
     top: 5px;
     left: 15px;
-    font-size: 60px; /* 超大型で見やすく */
-    color: #e74c3c; /* 分かりやすい赤色 */
+    font-size: 60px;
+    color: #e74c3c;
     line-height: 1;
     font-family: Arial, sans-serif;
     font-weight: bold;
