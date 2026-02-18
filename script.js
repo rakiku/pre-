@@ -981,9 +981,27 @@ if (charImagePath) {
 html += `<img src="${charImagePath}" alt="${selectedChar}" class="result-image" onerror="console.log('キャラ画像読み込みエラー'); this.style.display='none'">`;
 }
 html += `</div>`;
+} else if (chars.length > 0 && chars.length <= 8) {
+// 候補キャラが8人以内なら画像を横並び表示
+html += `<div class="result-section">`;
+html += `<h4>対象キャラクター (${chars.length}人)：</h4>`;
+html += `<div class="result-image-container">`;
+chars.forEach(c => {
+const charImagePath = encodeImagePath('character', c.name);
+html += `
+<div class="result-card">
+<img src="${charImagePath}" alt="${c.name}" class="result-mini-image" onerror="this.style.display='none'">
+<span>${c.name}</span>
+</div>`;
+});
+html += `</div></div>`;
+} else if (chars.length > 8) {
+// 8人より多い場合は名前リストのみ表示
+html += `<h4>対象キャラクター:</h4><p class="char-list-final">${chars.map(c=>c.name).join('、')}</p>`;
 }
 
 let wepText = "すべて";
+let weaponCandidates = [];  // 武器候補リスト
 // 最初にキャラ武器ルーレットの結果を優先的に確認
 if (pb["キャラ武器ルーレット"] && pb["キャラ武器ルーレット"].weapon) {
 wepText = pb["キャラ武器ルーレット"].weapon;
@@ -999,7 +1017,9 @@ wepText = "☆４" + (f["武器種縛り"] || "武器");
             } else if (f["配布武器縛り"]) {
                 // 配布武器縛りは複数の武器を表示
                 const charWeaponType = characters.find(cd => cd.name === chars[0]?.name)?.weapon;
-                wepText = jpSort(allWeapons[charWeaponType || "片手剣"].filter(w => w.is_distributed).map(w => w.name)).join('、') || "なし";
+                const distributedWeapons = allWeapons[charWeaponType || "片手剣"].filter(w => w.is_distributed);
+                weaponCandidates = distributedWeapons;
+                wepText = jpSort(distributedWeapons.map(w => w.name)).join('、') || "なし";
 }
 
 // ===== 武器画像 =====
@@ -1014,13 +1034,24 @@ if (weaponImagePath) {
 html += `<img src="${weaponImagePath}" alt="${selectedWeapon}" class="result-image" onerror="console.log('武器画像読み込みエラー'); this.style.display='none'">`;
 }
 html += `</div>`;
+} else if (weaponCandidates.length > 0 && weaponCandidates.length <= 8) {
+// 候補武器が8つ以内なら画像を横並び表示
+html += `<div class="result-section">`;
+html += `<h4>使用可能武器 (${weaponCandidates.length}個)：</h4>`;
+html += `<div class="result-image-container">`;
+weaponCandidates.forEach(w => {
+const weaponImagePath = encodeImagePath('weapon', w.name);
+html += `
+<div class="result-card">
+<img src="${weaponImagePath}" alt="${w.name}" class="result-mini-image" onerror="this.style.display='none'">
+<span>${w.name}</span>
+</div>`;
+});
+html += `</div></div>`;
 } else {
 html += `<h4>使用可能武器:</h4><p class="char-list-final">${wepText}</p>`;
 }
 
-if (!selectedChar) {
-html += `<h4>対象キャラクター:</h4><p class="char-list-final">${chars.map(c=>c.name).join('、')||'条件不一致'}</p>`;
-}
 html += `<button class="reroll-player-button" data-player-index="${i+1}">再抽選</button></div>`;
 }
 
