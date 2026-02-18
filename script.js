@@ -853,9 +853,31 @@ return;
 }
 if (currentRoulette === 'boss') {
 results.boss = lastResult;
-if (mode === 'boss') showResults();
-else if (mode === 'custom_selected') proceedToNext();
-else { bindSelectionPhase = true; currentRoulette = 'bind'; items = getAvailableBinds(); prerenderRouletteImage(); drawRoulette(); document.getElementById('spinButton').disabled = false; }
+
+// 【最優先】カスタムモードかどうかを最初にチェック
+// この判定が他のすべての条件よりも先に実行されるべき
+if (mode === 'custom_selected' || mode === 'selected') {
+// カスタム設定の場合、bindSelectionPhaseを絶対にtrueにしない
+// 選んだ縛りリスト（bindsToResolve）を保持したまま次フェーズへ
+currentBindIndex = 0;
+startNextSelectedBind();  // 選んだ縛りへ直行
+return;  // ← 他の分岐に行かないことが重要
+}
+
+// 以下は通常モード用
+if (mode === 'boss') {
+showResults();
+return;
+}
+
+// 通常の「ボス＋縛りルーレット」モード
+// ボスが決まったら、次は縛りカテゴリーをランダムに選ぶ
+bindSelectionPhase = true;
+currentRoulette = 'bind';
+items = getAvailableBinds();
+prerenderRouletteImage();
+drawRoulette();
+document.getElementById('spinButton').disabled = false;
 return;
 }
 if (playerBindTypes.includes(currentBindName)) {
