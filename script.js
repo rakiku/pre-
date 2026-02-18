@@ -908,8 +908,6 @@ document.addEventListener('DOMContentLoaded', function() {
             // 最初にキャラ武器ルーレットの結果を優先的に確認
             if (pb["キャラ武器ルーレット"] && pb["キャラ武器ルーレット"].weapon) {
                 wepText = pb["キャラ武器ルーレット"].weapon;
-            } else if (f["武器縛り"]) {
-                wepText = f["武器縛り"];
             } else if (f["武器種縛り"]) {
                 wepText = f["武器種縛り"];
             } else if (f["☆４キャラ武器"]) {
