@@ -527,6 +527,33 @@ const subRoulettes = {
 const playerBindTypes = ["キャラルーレット", "キャラ武器ルーレット", "武器縛り", "アルファベット縛り", "誕生月", "武器種縛り", "体型縛り", "役割縛り", "元素エネルギー縛り", "ボス素材縛り", "特産品縛り", "突破ステータス縛り(キャラ)", "突破ステータス縛り(武器)", "配布キャラ縛り", "配布武器縛り", "天賦素材縛り", "別衣装縛り", "オリジナル料理種別縛り", "軌跡ついてるキャラ縛り", "週ボス素材縛り"];
 const bindOrder = ["国縛り", "モノ元素縛り", "恒常☆５縛り", "☆４キャラ武器", "初期キャラのみ", "所持率100％縛り", "旅人縛り", "配布キャラ縛り", "各1.1縛り", "体型縛り", "役割縛り", "元素エネルギー縛り", "ボス素材縛り", "特産品縛り", "突破ステータス縛り(キャラ)", "武器種縛り", "突破ステータス縛り(武器)", "配布武器縛り", "武器縛り", "誕生月", "アルファベット縛り", "天賦素材縛り", "別衣装縛り", "オリジナル料理種別縛り", "軌跡ついてるキャラ縛り", "週ボス素材縛り", "キャラルーレット", "キャラ武器ルーレット"];
 
+// Priority map for bind resolution order
+const resolutionPriority = {
+    // 1. Character filtering attributes (priority 1)
+    "国縛り": 1, "モノ元素縛り": 1, "恒常☆５縛り": 1, "☆４キャラ武器": 1,
+    "初期キャラのみ": 1, "所持率100％縛り": 1, "旅人縛り": 1, "各1.1縛り": 1,
+    "体型縛り": 1, "役割縛り": 1, "元素エネルギー縛り": 1, "ボス素材縛り": 1,
+    "特産品縛り": 1, "突破ステータス縛り(キャラ)": 1, "誕生月": 1, "アルファベット縛り": 1,
+    "天賦素材縛り": 1, "別衣装縛り": 1, "オリジナル料理種別縛り": 1, "軌跡ついてるキャラ縛り": 1, "週ボス素材縛り": 1,
+
+    // 2. Weapon and equipment restrictions (priority 10-11, weapon type gets fixed here)
+    // Priority 10: Weapon type and attributes that filter weapon pools
+    "武器種縛り": 10, "突破ステータス縛り(武器)": 10, "配布武器縛り": 10,
+    // Priority 11: Specific weapon selection (must come after weapon type filtering)
+    "武器縛り": 11,
+
+    // 3. Final determination (priority 20-100, must be last)
+    "配布キャラ縛り": 20, "キャラルーレット": 100, "キャラ武器ルーレット": 100
+};
+
+function sortBindsForResolution(bindList) {
+    return bindList.sort((a, b) => {
+        const priorityA = resolutionPriority[a.name] || 50;
+        const priorityB = resolutionPriority[b.name] || 50;
+        return priorityA - priorityB;
+    });
+}
+
 let playerCount, bindCount, mode, currentRoulette, currentBindName, currentBindIndex, items, angle = 0, spinning = false, results = {}, currentPlayer = 1, lastResult;
 let rerolledChars, rerolledWeapons, rerolledCommonWeapons, playerNames = [], bindSelectionPhase, bindsToResolve, excludedSubItems = {};
 let prerenderedRoulette = null, spinSpeed = 0, visualItems = [];
@@ -720,6 +747,27 @@ currentRoulette = 'character';
 if (bindName === 'キャラ武器ルーレット' && results.players[player - 1]['キャラ武器ルーレット'] && results.players[player-1]['キャラ武器ルーレット'].char) {
 const charData = characters.find(c => c.name === results.players[player - 1]['キャラ武器ルーレット'].char);
 currentRoulette = 'weapon'; items = getFilteredWeapons(charData.weapon, charData.name);
+} else if (bindName === 'キャラ武器ルーレット' && currentFilters["配布武器縛り"]) {
+// If 配布武器縛り has already determined a weapon, filter characters by weapon type
+const weaponRestriction = currentFilters["配布武器縛り"];
+let weaponType = null;
+// Find the weapon type from the restriction
+if (typeof weaponRestriction === 'string' && weaponRestriction !== "true") {
+// Specific weapon is selected
+const weaponData = Object.values(allWeapons).flat().find(w => w.name === weaponRestriction);
+if (weaponData) {
+weaponType = Object.keys(allWeapons).find(type => allWeapons[type].some(w => w.name === weaponRestriction));
+}
+}
+// Filter characters by weapon type
+if (weaponType) {
+items = getFilteredCharacters(null, player).filter(c => {
+const charData = characters.find(ch => ch.name === c.name);
+return charData && charData.weapon === weaponType;
+}).map(c => c.name);
+} else {
+items = getFilteredCharacters(null, player).map(c => c.name);
+}
 } else {
 items = getFilteredCharacters(null, player).map(c => c.name);
 }
@@ -799,8 +847,7 @@ let full = []; bindNames.forEach(bName => {
 if (playerBindTypes.includes(bName)) for (let i = 1; i <= playerCount; i++) full.push({ name: bName, player: i });
 else full.push({ name: bName, player: 0 });
 });
-full.sort((a, b) => (bindOrder.indexOf(a.name) - bindOrder.indexOf(b.name)));
-bindsToResolve = full; currentBindIndex = 0; startNextSelectedBind();
+bindsToResolve = sortBindsForResolution(full); currentBindIndex = 0; startNextSelectedBind();
 }
 return;
 }
@@ -815,6 +862,16 @@ if (playerBindTypes.includes(currentBindName)) {
 if (currentBindName === 'キャラ武器ルーレット') {
 if (currentRoulette === 'character') {
 results.players[currentPlayer - 1][currentBindName] = { char: lastResult, weapon: null };
+// Check if weapon is already determined by 配布武器縛り
+const resolvedFilters = {...results.common, ...results.players[currentPlayer - 1]};
+if (resolvedFilters["配布武器縛り"]) {
+const weaponRestriction = resolvedFilters["配布武器縛り"];
+if (typeof weaponRestriction === 'string' && weaponRestriction !== "true") {
+// Specific weapon is already selected, use it directly
+results.players[currentPlayer - 1][currentBindName].weapon = weaponRestriction;
+proceedToNext(); return;
+}
+}
 currentRoulette = 'weapon'; 
 items = getFilteredWeapons(characters.find(c => c.name === lastResult).weapon, lastResult);
 setupRouletteForBind('キャラ武器ルーレット', currentPlayer); return;
@@ -908,6 +965,11 @@ let wepText = "すべて";
 // 最初にキャラ武器ルーレットの結果を優先的に確認
 if (pb["キャラ武器ルーレット"] && pb["キャラ武器ルーレット"].weapon) {
 wepText = pb["キャラ武器ルーレット"].weapon;
+} else if (f["武器縛り"]) {
+wepText = f["武器縛り"];
+} else if (f["配布武器縛り"] && typeof f["配布武器縛り"] === 'string' && f["配布武器縛り"] !== "true") {
+// 配布武器縛りで特定の武器が選ばれている場合
+wepText = f["配布武器縛り"];
 } else if (f["武器種縛り"]) {
 wepText = f["武器種縛り"];
 } else if (f["☆４キャラ武器"]) {
@@ -919,7 +981,7 @@ wepText = "☆４" + (f["武器種縛り"] || "武器");
 }
 
 // ===== 武器画像 =====
-const selectedWeapon = (pb["キャラ武器ルーレット"] && pb["キャラ武器ルーレット"].weapon) || f["武器縛り"];
+const selectedWeapon = (pb["キャラ武器ルーレット"] && pb["キャラ武器ルーレット"].weapon) || f["武器縛り"] || (f["配布武器縛り"] && typeof f["配布武器縛り"] === 'string' && f["配布武器縛り"] !== "true" ? f["配布武器縛り"] : null);
 if (selectedWeapon && selectedWeapon !== "すべて") {
 const weaponImagePath = encodeImagePath('weapon', selectedWeapon);
 console.log(`[RESULTS] 武器: ${selectedWeapon}, パス: ${weaponImagePath}`);
@@ -995,7 +1057,7 @@ let t = p ? results.players[p-1] : results.common;
 if (s && s.value !== 'random') t[n] = (n === '元素エネルギー縛り') ? parseInt(s.value) : s.value;
 else bindsToResolve.push({ name: n, player: p });
 });
-bindsToResolve.sort((a, b) => (bindOrder.indexOf(a.name) - bindOrder.indexOf(b.name)));
+bindsToResolve = sortBindsForResolution(bindsToResolve);
 if (!results.boss) { 
 currentRoulette = 'boss'; 
 items = bosses; 
@@ -1389,7 +1451,7 @@ alert('縛りを選択してください');
 return;
 }
 
-bindsToResolve.sort((a, b) => bindOrder.indexOf(a.name) - bindOrder.indexOf(b.name));
+bindsToResolve = sortBindsForResolution(bindsToResolve);
 
 currentRoulette = 'boss';
 items = bosses;
@@ -1523,7 +1585,7 @@ alert('縛りを選択してください');
 return;
 }
 
-bindsToResolve.sort((a, b) => bindOrder.indexOf(a.name) - bindOrder.indexOf(b.name));
+bindsToResolve = sortBindsForResolution(bindsToResolve);
 
 // Start with the first selected bind, not boss roulette
 currentBindIndex = 0;
