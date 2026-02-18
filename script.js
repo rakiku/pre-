@@ -912,10 +912,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 wepText = f["武器種縛り"];
             } else if (f["☆４キャラ武器"]) {
                 wepText = "☆４" + (f["武器種縛り"] || "武器");
-            } else if (f["配布武器縛り"]) {
-                // 配布武器縛りは複数の武器を表示
-                const charWeaponType = characters.find(cd => cd.name === chars[0]?.name)?.weapon;
-                wepText = jpSort(allWeapons[charWeaponType || "片手剣"].filter(w => w.is_distributed).map(w => w.name)).join('、') || "なし";
             }
             
             // ===== 武器画像 =====
