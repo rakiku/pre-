@@ -905,14 +905,18 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             
             let wepText = "すべて";
-            if (f["武器種縛り"]) wepText = f["武器種縛り"];
-            if (f["☆４キャラ武器"]) wepText = "☆４" + (f["武器種縛り"] || "武器");
-            if (f["配布武器縛り"]) {
+            // 最初にキャラ武器ルーレットの結果を優先的に確認
+            if (pb["キャラ武器ルーレット"] && pb["キャラ武器ルーレット"].weapon) {
+                wepText = pb["キャラ武器ルーレット"].weapon;
+            } else if (f["武器種縛り"]) {
+                wepText = f["武器種縛り"];
+            } else if (f["☆４キャラ武器"]) {
+                wepText = "☆４" + (f["武器種縛り"] || "武器");
+            } else if (f["配布武器縛り"]) {
+                // 配布武器縛りは複数の武器を表示
                 const charWeaponType = characters.find(cd => cd.name === chars[0]?.name)?.weapon;
                 wepText = jpSort(allWeapons[charWeaponType || "片手剣"].filter(w => w.is_distributed).map(w => w.name)).join('、') || "なし";
             }
-            if (pb["キャラ武器ルーレット"] && pb["キャラ武器ルーレット"].weapon) wepText = pb["キャラ武器ルーレット"].weapon;
-            else if (f["武器縛り"]) wepText = f["武器縛り"];
             
             // ===== 武器画像 =====
             const selectedWeapon = (pb["キャラ武器ルーレット"] && pb["キャラ武器ルーレット"].weapon) || f["武器縛り"];
