@@ -981,7 +981,7 @@ if (charImagePath) {
 html += `<img src="${charImagePath}" alt="${selectedChar}" class="result-image" onerror="console.log('キャラ画像読み込みエラー'); this.style.display='none'">`;
 }
 html += `</div>`;
-} else if (chars.length >= 1 && chars.length <= 8) {
+} else if (chars.length > 0 && chars.length <= 8) {
 // 候補キャラが8人以内なら画像を横並び表示
 html += `<div class="result-section">`;
 html += `<h4>対象キャラクター (${chars.length}人)：</h4>`;
@@ -1034,7 +1034,7 @@ if (weaponImagePath) {
 html += `<img src="${weaponImagePath}" alt="${selectedWeapon}" class="result-image" onerror="console.log('武器画像読み込みエラー'); this.style.display='none'">`;
 }
 html += `</div>`;
-} else if (weaponCandidates.length >= 1 && weaponCandidates.length <= 8) {
+} else if (weaponCandidates.length > 0 && weaponCandidates.length <= 8) {
 // 候補武器が8つ以内なら画像を横並び表示
 html += `<div class="result-section">`;
 html += `<h4>使用可能武器 (${weaponCandidates.length}個)：</h4>`;
