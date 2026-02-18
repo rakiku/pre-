@@ -529,16 +529,20 @@ const bindOrder = ["国縛り", "モノ元素縛り", "恒常☆５縛り", "☆
 
 // Priority map for bind resolution order
 const resolutionPriority = {
-    // 1. Character filtering attributes
+    // 1. Character filtering attributes (priority 1)
     "国縛り": 1, "モノ元素縛り": 1, "恒常☆５縛り": 1, "☆４キャラ武器": 1,
     "初期キャラのみ": 1, "所持率100％縛り": 1, "旅人縛り": 1, "各1.1縛り": 1,
     "体型縛り": 1, "役割縛り": 1, "元素エネルギー縛り": 1, "ボス素材縛り": 1,
     "特産品縛り": 1, "突破ステータス縛り(キャラ)": 1, "誕生月": 1, "アルファベット縛り": 1,
+    "天賦素材縛り": 1, "別衣装縛り": 1, "オリジナル料理種別縛り": 1, "軌跡ついてるキャラ縛り": 1, "週ボス素材縛り": 1,
 
-    // 2. Weapon and equipment restrictions (weapon type gets fixed here)
-    "武器種縛り": 10, "突破ステータス縛り(武器)": 10, "配布武器縛り": 10, "武器縛り": 11,
+    // 2. Weapon and equipment restrictions (priority 10-11, weapon type gets fixed here)
+    // Priority 10: Weapon type and attributes that filter weapon pools
+    "武器種縛り": 10, "突破ステータス縛り(武器)": 10, "配布武器縛り": 10,
+    // Priority 11: Specific weapon selection (must come after weapon type filtering)
+    "武器縛り": 11,
 
-    // 3. Final determination (must be last)
+    // 3. Final determination (priority 20-100, must be last)
     "配布キャラ縛り": 20, "キャラルーレット": 100, "キャラ武器ルーレット": 100
 };
 
@@ -859,9 +863,9 @@ if (currentBindName === 'キャラ武器ルーレット') {
 if (currentRoulette === 'character') {
 results.players[currentPlayer - 1][currentBindName] = { char: lastResult, weapon: null };
 // Check if weapon is already determined by 配布武器縛り
-const currentFilters = {...results.common, ...results.players[currentPlayer - 1]};
-if (currentFilters["配布武器縛り"]) {
-const weaponRestriction = currentFilters["配布武器縛り"];
+const resolvedFilters = {...results.common, ...results.players[currentPlayer - 1]};
+if (resolvedFilters["配布武器縛り"]) {
+const weaponRestriction = resolvedFilters["配布武器縛り"];
 if (typeof weaponRestriction === 'string' && weaponRestriction !== "true") {
 // Specific weapon is already selected, use it directly
 results.players[currentPlayer - 1][currentBindName].weapon = weaponRestriction;
