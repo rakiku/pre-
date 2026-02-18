@@ -1,8 +1,8 @@
-function encodeImagePath(type) {
+function encodeImagePath(imageName) {
     const folderMap = {
-        boss: 'files/boss',
-        character: 'files/characters',
-        weapon: 'files/weapons'
+        'boss': 'files/boss',
+        'character': 'files/characters',
+        'weapon': 'files/weapons',
     };
-    return `${folderMap[type] || ''}/${type}`;
+    // The rest of the function implementation...
 }
