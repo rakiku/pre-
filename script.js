@@ -58,9 +58,9 @@ window.bulkCheck = function(type, state) {
 function encodeImagePath(type, name) {
     if (!name) return null;
     const folderMap = {
-        'boss': 'boss',
-        'character': 'characters',
-        'weapon': 'weapons'
+        'boss': 'files/boss',
+        'character': 'files/characters',
+        'weapon': 'files/weapons'
     };
     const folder = folderMap[type];
     const cleanName = name.trim().replace(/\s+/g, '');
