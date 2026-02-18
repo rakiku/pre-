@@ -58,15 +58,22 @@ window.bulkCheck = function(type, state) {
 function encodeImagePath(type, name) {
     if (!name) return null;
     const folderMap = {
-        'boss': 'boss',
-        'character': 'characters',
-        'weapon': 'weapons'
+        'boss': 'files/boss',
+        'character': 'files/characters',
+        'weapon': 'files/weapons'
     };
     const folder = folderMap[type];
     const cleanName = name.trim().replace(/\s+/g, '');
-    const encodedName = encodeURIComponent(cleanName);
-    console.log(`[IMAGE] type:${type}, name:${name}, path:/${folder}/${encodedName}.png`);
-    return `/${folder}/${encodedName}.png`;
+    
+    // セキュリティチェック
+    if (cleanName.includes('..') || cleanName.includes('/') || cleanName.includes('\\')) {
+        console.error(`[IMAGE] Invalid name detected: ${name}`);
+        return null;
+    }
+    
+    // 日本語ファイル名をそのまま使用（encodeURIComponentを使用しない）
+    console.log(`[IMAGE] type:${type}, name:${name}, path:/${folder}/${cleanName}.png`);
+    return `/${folder}/${cleanName}.png`;
 }
 
 document.addEventListener('DOMContentLoaded', function() {
