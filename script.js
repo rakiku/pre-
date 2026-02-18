@@ -65,8 +65,8 @@ function encodeImagePath(type, name) {
     const folder = folderMap[type];
     const cleanName = name.trim().replace(/\s+/g, '');
     
-    // Prevent path traversal attacks by rejecting names with '..' or '/'
-    if (cleanName.includes('..') || cleanName.includes('/')) {
+    // Prevent path traversal attacks by rejecting names with '..' or path separators
+    if (cleanName.includes('..') || cleanName.includes('/') || cleanName.includes('\\')) {
         console.error(`[IMAGE] Invalid name detected: ${name}`);
         return null;
     }
