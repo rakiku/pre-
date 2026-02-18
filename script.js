@@ -71,9 +71,10 @@ function encodeImagePath(type, name) {
         return null;
     }
     
-    // 日本語ファイル名をそのまま使用（encodeURIComponentを使用しない）
-    console.log(`[IMAGE] type:${type}, name:${name}, path:/${folder}/${cleanName}.png`);
-    return `/${folder}/${cleanName}.png`;
+    // encodeURIComponent()で正しくエンコード
+    const encodedName = encodeURIComponent(cleanName);
+    console.log(`[IMAGE] type:${type}, name:${name}, path:/${folder}/${encodedName}.png`);
+    return `/${folder}/${encodedName}.png`;
 }
 
 document.addEventListener('DOMContentLoaded', function() {
