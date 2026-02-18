@@ -58,15 +58,21 @@ window.bulkCheck = function(type, state) {
 function encodeImagePath(type, name) {
     if (!name) return null;
     const folderMap = {
-        'boss': 'files/boss',
-        'character': 'files/characters',
-        'weapon': 'files/weapons'
+        'boss': 'boss',
+        'character': 'characters',
+        'weapon': 'weapons'
     };
     const folder = folderMap[type];
     const cleanName = name.trim().replace(/\s+/g, '');
-    const encodedName = encodeURIComponent(cleanName);
-    console.log(`[IMAGE] type:${type}, name:${name}, path:/${folder}/${encodedName}.png`);
-    return `/${folder}/${encodedName}.png`;
+    
+    // Prevent path traversal attacks by rejecting names with '..' or path separators
+    if (cleanName.includes('..') || cleanName.includes('/') || cleanName.includes('\\')) {
+        console.error(`[IMAGE] Invalid name detected: ${name}`);
+        return null;
+    }
+    
+    console.log(`[IMAGE] type:${type}, name:${name}, path:/${folder}/${cleanName}.png`);
+    return `/${folder}/${cleanName}.png`;
 }
 
 document.addEventListener('DOMContentLoaded', function() {
